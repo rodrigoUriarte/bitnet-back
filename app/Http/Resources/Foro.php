@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Rol extends JsonResource
+class Foro extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,8 @@ class Rol extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'users' => User::collection($this->whenLoaded('users')),
-            'permissions' => Permiso::collection($this->whenLoaded('permissions')),
+            'nombre' => $this->nombre,
+            'preguntas' => Pregunta::collection($this->whenLoaded('preguntas')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

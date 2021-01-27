@@ -19,17 +19,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        return new RolCollection(Role::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return new RolCollection(Role::with('permissions')->get());
     }
 
     /**
@@ -43,7 +33,8 @@ class RolController extends Controller
         //$validated = $request->validated();
 
         $rol = Role::create($request->all());
-        $rol->syncPermissions($request->permissions);
+        $permissions = collect($request->permissions)->pluck('id');
+        $rol->syncPermissions($permissions);
 
         return (new Rol($rol))
             ->response()
@@ -62,17 +53,6 @@ class RolController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -84,9 +64,9 @@ class RolController extends Controller
         //$validated = $request->validated();
 
         $rol = Role::findOrFail($id);
-        $rol->name = $request->name;
-        $rol->save();
-        $rol->syncPermissions($request->permissions);
+        $rol->update($request->all());
+        $permissions = collect($request->permissions)->pluck('id');
+        $rol->syncPermissions($permissions);
 
         return (new Rol($rol))
             ->response()

@@ -17,8 +17,8 @@ class Permiso extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            // 'users' => User::collection($this->users),
-            // 'roles' => Rol::collection($this->roles),
+            'users' => User::collection($this->whenLoaded('users')),
+            'roles' => Rol::collection($this->whenLoaded('roles')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

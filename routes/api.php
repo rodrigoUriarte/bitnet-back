@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\ForoController;
+use App\Http\Controllers\API\ForoPreguntasController;
 use App\Http\Controllers\API\PermisoController;
+use App\Http\Controllers\API\PreguntaController;
+use App\Http\Controllers\API\RespuestaController;
 use App\Http\Controllers\API\RolController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -24,7 +28,10 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => ['api'],
 ], function(){
-    Route::resource('usuarios', UserController::class);
-    Route::resource('roles', RolController::class);
-    Route::resource('permisos', PermisoController::class);
+    Route::apiResource('usuarios', UserController::class);
+    Route::apiResource('roles', RolController::class);
+    Route::apiResource('permisos', PermisoController::class);
+    Route::apiResource('foros', ForoController::class);
+    Route::apiResource('foros.preguntas', PreguntaController::class)->shallow();
+    Route::apiResource('respuestas', RespuestaController::class);
 });

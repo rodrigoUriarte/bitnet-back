@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Rol extends JsonResource
+class Respuesta extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,10 @@ class Rol extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'descripcion' => $this->descripcion,
+            'user' => new User($this->whenLoaded('user')),
             'users' => User::collection($this->whenLoaded('users')),
-            'permissions' => Permiso::collection($this->whenLoaded('permissions')),
+            'pregunta' => new Pregunta($this->whenLoaded('pregunta')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

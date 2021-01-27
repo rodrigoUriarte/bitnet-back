@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Resources\Foro as ResourcesForo;
+use App\Http\Resources\ForoCollection;
+use App\Models\Foro;
 use Illuminate\Http\Request;
-use App\Http\Resources\User as ResourcesUser;
-use App\Http\Resources\UserCollection;
-use App\Models\User;
 
-
-class UserController extends Controller
+class ForoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new UserCollection(User::with('roles')->get());
+        return new ForoCollection(Foro::all());
     }
 
     /**
@@ -32,11 +30,9 @@ class UserController extends Controller
     {
         //$validated = $request->validated();
 
-        $user = User::create($request->all());
-        $roles = collect($request->roles)->pluck('id');
-        $user->syncRoles($roles);
-        
-        return (new ResourcesUser($user))
+        $foro = Foro::create($request->all());
+
+        return (new ResourcesForo($foro))
             ->response()
             ->setStatusCode(201);
     }
@@ -49,7 +45,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return new ResourcesUser(User::findOrFail($id));
+        return new ResourcesForo(Foro::findOrFail($id));
     }
 
     /**
@@ -59,16 +55,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(Request $request, $id)
     {
         //$validated = $request->validated();
 
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        $roles = collect($request->roles)->pluck('id');
-        $user->syncRoles($roles);
+        $foro = Foro::findOrFail($id);
+        $foro->update($request->all());
 
-        return (new ResourcesUser($user))
+        return (new ResourcesForo($foro))
             ->response()
             ->setStatusCode(201);
     }
@@ -81,8 +75,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        $foro = Foro::findOrFail($id);
+        $foro->delete();
 
         return response()->json(null, 204);
     }
