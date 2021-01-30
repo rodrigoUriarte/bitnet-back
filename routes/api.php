@@ -33,5 +33,5 @@ Route::group([
     Route::apiResource('permisos', PermisoController::class);
     Route::apiResource('foros', ForoController::class);
     Route::apiResource('foros.preguntas', PreguntaController::class)->shallow();
-    Route::apiResource('respuestas', RespuestaController::class);
+    Route::apiResource('preguntas.respuestas', RespuestaController::class)->shallow();
 });

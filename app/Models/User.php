@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function respuestas()
     {
-        return $this->belongsToMany(Respuesta::class);
+        return $this->belongsToMany(Respuesta::class)->withPivot('like')->withTimestamps();
     }
 }

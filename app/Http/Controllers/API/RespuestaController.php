@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Pregunta as ResourcesPregunta;
 use App\Http\Resources\Respuesta as ResourcesRespuesta;
 use App\Http\Resources\RespuestaCollection;
+use App\Models\Pregunta;
 use App\Models\Respuesta;
 use Illuminate\Http\Request;
 
@@ -15,9 +17,9 @@ class RespuestaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return new RespuestaCollection(Respuesta::all());
+        return new ResourcesPregunta(Pregunta::with('respuestas')->findOrFail($id));
     }
 
     /**

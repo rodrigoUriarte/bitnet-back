@@ -15,7 +15,7 @@ class CreateRespuestasTable extends Migration
     {
         Schema::create('respuestas', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onUpdate('cascade')

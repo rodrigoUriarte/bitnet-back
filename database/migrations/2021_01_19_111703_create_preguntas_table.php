@@ -16,7 +16,7 @@ class CreatePreguntasTable extends Migration
         Schema::create('preguntas', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onUpdate('cascade')
