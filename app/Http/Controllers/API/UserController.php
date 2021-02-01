@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\User as ResourcesUser;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -32,7 +32,11 @@ class UserController extends Controller
     {
         //$validated = $request->validated();
 
-        $user = User::create($request->all());
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
         $roles = collect($request->roles)->pluck('id');
         $user->syncRoles($roles);
         
@@ -64,7 +68,10 @@ class UserController extends Controller
         //$validated = $request->validated();
 
         $user = User::findOrFail($id);
-        $user->update($request->all());
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
         $roles = collect($request->roles)->pluck('id');
         $user->syncRoles($roles);
 

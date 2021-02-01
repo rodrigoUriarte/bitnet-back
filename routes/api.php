@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ForoController;
 use App\Http\Controllers\API\ForoPreguntasController;
+use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\PermisoController;
 use App\Http\Controllers\API\PreguntaController;
 use App\Http\Controllers\API\RespuestaController;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group([
-    'middleware' => ['api'],
+    'middleware' => ['api','auth:sanctum'],
 ], function(){
     Route::apiResource('usuarios', UserController::class);
     Route::apiResource('roles', RolController::class);
@@ -35,3 +36,5 @@ Route::group([
     Route::apiResource('foros.preguntas', PreguntaController::class)->shallow();
     Route::apiResource('preguntas.respuestas', RespuestaController::class)->shallow();
 });
+
+Route::post('/login', LoginController::class);
