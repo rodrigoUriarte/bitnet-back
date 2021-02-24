@@ -19,7 +19,7 @@ class PreguntaController extends Controller
      */
     public function index($id)
     {
-        return new ResourcesForo(Foro::with('preguntas')->findOrFail($id));
+        return new ResourcesForo(Foro::with('preguntas.user')->findOrFail($id));
     }
 
     /**
@@ -32,7 +32,9 @@ class PreguntaController extends Controller
     {
         //$validated = $request->validated();
 
-        $pregunta = Pregunta::create($request->all());
+        $newPregunta = Pregunta::create($request->all());
+
+        $pregunta = Pregunta::with('user')->findOrFail($newPregunta->id);
 
         return (new ResourcesPregunta($pregunta))
             ->response()

@@ -10,6 +10,7 @@ use App\Models\Interaccion;
 use App\Models\Pregunta;
 use App\Models\Respuesta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RespuestaController extends Controller
 {
@@ -20,7 +21,7 @@ class RespuestaController extends Controller
      */
     public function index($id)
     {
-        return new ResourcesPregunta(Pregunta::with('respuestas.interacciones')->findOrFail($id));
+        return new ResourcesPregunta(Pregunta::with(['respuestas.user','respuestas.interacciones'])->findOrFail($id));
     }
 
     /**
@@ -33,8 +34,9 @@ class RespuestaController extends Controller
     {
         //$validated = $request->validated();
 
-        $respuesta = Respuesta::create($request->all());
+        $newRespuesta = Respuesta::create($request->all());
 
+        $respuesta = Respuesta::with('user')->findOrFail($newRespuesta->id);
         return (new ResourcesRespuesta($respuesta))
             ->response()
             ->setStatusCode(201);

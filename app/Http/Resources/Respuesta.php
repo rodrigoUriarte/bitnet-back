@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Respuesta extends JsonResource
@@ -20,8 +21,8 @@ class Respuesta extends JsonResource
             'user' => new User($this->whenLoaded('user')),
             'interacciones' => Interaccion::collection($this->whenLoaded('interacciones')),
             'pregunta' => new Pregunta($this->whenLoaded('pregunta')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Carbon::parse($this->created_at)->toDateTimeString(),
+            'updated_at' => Carbon::parse($this->updated_at)->toDateTimeString(),
         ];
     }
 }
