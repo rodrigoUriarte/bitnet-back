@@ -13,7 +13,7 @@ class CreateRespuestaUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('respuesta_user', function (Blueprint $table) {
+        Schema::create('interacciones', function (Blueprint $table) {
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onUpdate('cascade')

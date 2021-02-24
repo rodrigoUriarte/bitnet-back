@@ -22,9 +22,15 @@ class Respuesta extends Model
         return $this->belongsTo(Pregunta::class);
     }
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class)->withPivot('like')->withTimestamps();
-    }
+    //no se usa, se usa interacciones
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class,'interacciones')->using(Interaccion::class)->withPivot('like')->withTimestamps();
+    // }
 
+
+    public function interacciones()
+    {
+        return $this->hasMany(Interaccion::class);
+    }
 }

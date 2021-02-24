@@ -18,7 +18,7 @@ class Respuesta extends JsonResource
             'id' => $this->id,
             'descripcion' => $this->descripcion,
             'user' => new User($this->whenLoaded('user')),
-            'users' => User::collection($this->whenLoaded('users')),
+            'interacciones' => Interaccion::collection($this->whenLoaded('interacciones')),
             'pregunta' => new Pregunta($this->whenLoaded('pregunta')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -50,6 +50,6 @@ class User extends Authenticatable
 
     public function respuestas()
     {
-        return $this->belongsToMany(Respuesta::class)->withPivot('like')->withTimestamps();
+        return $this->belongsToMany(Respuesta::class)->using(Interaccion::class)->withPivot('like')->withTimestamps();
     }
 }

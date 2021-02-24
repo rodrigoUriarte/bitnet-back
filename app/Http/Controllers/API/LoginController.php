@@ -20,11 +20,10 @@ class LoginController extends Controller
         //$validated = $request->validated();
 
         $user = User::where('email', $request->email)->first();
-
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
-                'message' => ['These credentials do not match our records.']
-            ], 404);
+                'message' => ['Sus credenciales no son correctas.']
+            ], 401);
         }
 
         $token = $user->createToken('my-app-token')->plainTextToken;

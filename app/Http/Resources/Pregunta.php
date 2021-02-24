@@ -14,7 +14,6 @@ class Pregunta extends JsonResource
      */
     public function toArray($request)
     {
-        $user = new User($this->user);
         return [
             'id' => $this->id,
             'titulo' => $this->titulo,

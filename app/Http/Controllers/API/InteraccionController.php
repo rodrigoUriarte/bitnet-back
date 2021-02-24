@@ -3,24 +3,22 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Pregunta as ResourcesPregunta;
-use App\Http\Resources\Respuesta as ResourcesRespuesta;
-use App\Http\Resources\RespuestaCollection;
+use App\Http\Resources\Interaccion as ResourcesInteraccion;
+use App\Http\Resources\InteraccionCollection;
 use App\Models\Interaccion;
-use App\Models\Pregunta;
 use App\Models\Respuesta;
 use Illuminate\Http\Request;
 
-class RespuestaController extends Controller
+class InteraccionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        return new ResourcesPregunta(Pregunta::with('respuestas.interacciones')->findOrFail($id));
+        return new InteraccionCollection(Interaccion::all());
     }
 
     /**
@@ -31,11 +29,15 @@ class RespuestaController extends Controller
      */
     public function store(Request $request)
     {
-        //$validated = $request->validated();
+        Interaccion::updateOrInsert(
+            ["respuesta_id" => $request->respuesta_id, "user_id" => $request->user_id],
+            ["like" => $request->like]
+        );
+        $interaccion = Interaccion::where('respuesta_id', $request->respuesta_id)
+            ->where('user_id', $request->respuesta_id)
+            ->first();
 
-        $respuesta = Respuesta::create($request->all());
-
-        return (new ResourcesRespuesta($respuesta))
+        return (new ResourcesInteraccion($interaccion))
             ->response()
             ->setStatusCode(201);
     }
@@ -48,7 +50,7 @@ class RespuestaController extends Controller
      */
     public function show($id)
     {
-        return new ResourcesRespuesta(Respuesta::findOrFail($id));
+        return new ResourcesInteraccion(Interaccion::findOrFail($id));
     }
 
     /**
@@ -62,10 +64,15 @@ class RespuestaController extends Controller
     {
         //$validated = $request->validated();
 
-        $respuesta = Respuesta::findOrFail($id);
-        $respuesta->update($request->all());
+        Interaccion::updateOrInsert(
+            ["respuesta_id" => $request->respuesta_id, "user_id" => $request->user_id],
+            ["like" => $request->like]
+        );
+        $interaccion = Interaccion::where('respuesta_id', $request->respuesta_id)
+            ->where('user_id', $request->respuesta_id)
+            ->first();
 
-        return (new ResourcesRespuesta($respuesta))
+        return (new ResourcesInteraccion($interaccion))
             ->response()
             ->setStatusCode(201);
     }
@@ -78,8 +85,8 @@ class RespuestaController extends Controller
      */
     public function destroy($id)
     {
-        $respuesta = Respuesta::findOrFail($id);
-        $respuesta->delete();
+        $interaccion = Interaccion::findOrFail($id);
+        $interaccion->delete();
 
         return response()->json(null, 204);
     }
