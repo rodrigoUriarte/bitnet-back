@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as ResourcesUser;
 use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserDashboard;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -92,5 +93,12 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function preguntas($id)
+    {
+        $user = User::with('preguntas')->findOrFail($id);
+
+        return new UserDashboard($user);
     }
 }

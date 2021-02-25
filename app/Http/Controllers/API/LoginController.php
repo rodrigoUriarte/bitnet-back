@@ -20,6 +20,7 @@ class LoginController extends Controller
         //$validated = $request->validated();
 
         $user = User::where('email', $request->email)->first();
+        $hash = Hash::check($request->password, $user->password);
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'message' => ['Sus credenciales no son correctas.']
@@ -28,9 +29,12 @@ class LoginController extends Controller
 
         $token = $user->createToken('my-app-token')->plainTextToken;
 
+        $permissions = $user->getAllPermissions()->pluck('name');
+
         $response = [
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'permissions' => $permissions
         ];
 
         return response($response, 201);

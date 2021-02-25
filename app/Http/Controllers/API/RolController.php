@@ -32,7 +32,7 @@ class RolController extends Controller
     {
         //$validated = $request->validated();
 
-        $rol = Role::create($request->all());
+        $rol = Role::create(Arr::add($request->all(),'guard_name','web') );
         $permissions = collect($request->permissions)->pluck('id');
         $rol->syncPermissions($permissions);
 

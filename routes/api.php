@@ -31,5 +31,7 @@ Route::group([
     Route::apiResource('foros.preguntas', PreguntaController::class)->shallow();
     Route::apiResource('preguntas.respuestas', RespuestaController::class)->shallow();
     Route::apiResource('interacciones', InteraccionController::class);
+    Route::get('/usuarios/{id}/preguntas', [UserController::class,'preguntas']);
+
 });
 Route::post('/login', LoginController::class);

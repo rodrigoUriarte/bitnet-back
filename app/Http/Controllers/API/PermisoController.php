@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Permiso;
 use App\Http\Resources\PermisoCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Permission;
 
 class PermisoController extends Controller
@@ -30,7 +31,7 @@ class PermisoController extends Controller
     {
         //$validated = $request->validated();
 
-        $permiso = Permission::create($request->all());
+        $permiso = Permission::create(Arr::add($request->all(),'guard_name', 'web') );
 
         return (new Permiso($permiso))
             ->response()
