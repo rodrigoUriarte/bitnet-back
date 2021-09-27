@@ -34,7 +34,7 @@ class InteraccionController extends Controller
             ["like" => $request->like]
         );
         $interaccion = Interaccion::where('respuesta_id', $request->respuesta_id)
-            ->where('user_id', $request->respuesta_id)
+            ->where('user_id', $request->user_id)
             ->first();
 
         return (new ResourcesInteraccion($interaccion))

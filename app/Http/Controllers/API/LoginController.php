@@ -18,9 +18,7 @@ class LoginController extends Controller
     public function __invoke(Request $request)
     {
         //$validated = $request->validated();
-
         $user = User::where('email', $request->email)->first();
-        $hash = Hash::check($request->password, $user->password);
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'message' => ['Sus credenciales no son correctas.']
